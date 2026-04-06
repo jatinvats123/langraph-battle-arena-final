@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>BATTLE ARENA | Strategic Comparison</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                "inverse-surface": "#fcf8f8",
+                "primary-container": "#454747",
+                "on-secondary-fixed-variant": "#5c5b5b",
+                "tertiary-container": "#ecebeb",
+                "surface-dim": "#0e0e0e",
+                "secondary-container": "#3c3b3b",
+                "on-tertiary-fixed-variant": "#656666",
+                "on-secondary-fixed": "#3f3f3f",
+                "on-primary-fixed": "#3e4040",
+                "primary-dim": "#b8b9b9",
+                "error": "#ee7d77",
+                "secondary-fixed-dim": "#d6d4d3",
+                "outline": "#767575",
+                "error-dim": "#bb5551",
+                "secondary": "#9f9d9d",
+                "outline-variant": "#484848",
+                "surface-container": "#1a1919",
+                "error-container": "#7f2927",
+                "on-primary": "#3f4041",
+                "on-error-container": "#ff9993",
+                "tertiary-fixed-dim": "#e6e5e5",
+                "inverse-on-surface": "#565554",
+                "background": "#0e0e0e",
+                "on-surface": "#e7e5e4",
+                "surface-container-low": "#131313",
+                "tertiary-dim": "#ecebeb",
+                "on-surface-variant": "#acabaa",
+                "on-secondary": "#202020",
+                "tertiary-fixed": "#f4f3f3",
+                "tertiary": "#faf9f9",
+                "on-tertiary-fixed": "#494a4a",
+                "secondary-fixed": "#e4e2e1",
+                "on-secondary-container": "#c1bfbe",
+                "secondary-dim": "#9f9d9d",
+                "primary-fixed": "#e2e2e2",
+                "surface-container-high": "#202020",
+                "primary": "#c6c6c6",
+                "surface-bright": "#2c2c2c",
+                "surface-tint": "#c6c6c6",
+                "primary-fixed-dim": "#d4d4d4",
+                "surface-variant": "#262626",
+                "inverse-primary": "#5e5f5f",
+                "surface": "#0e0e0e",
+                "on-tertiary": "#5e5f5f",
+                "on-background": "#e7e5e4",
+                "surface-container-highest": "#262626",
+                "on-primary-container": "#d0d0d0",
+                "surface-container-lowest": "#000000",
+                "on-primary-fixed-variant": "#5a5c5c",
+                "on-error": "#490106",
+                "on-tertiary-container": "#565757"
+            },
+            "borderRadius": {
+                "DEFAULT": "0.125rem",
+                "lg": "0.25rem",
+                "xl": "0.5rem",
+                "full": "0.75rem"
+            },
+            "fontFamily": {
+                "headline": ["Space Grotesk"],
+                "body": ["Inter"],
+                "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #0e0e0e;
+            color: #e7e5e4;
+            font-family: 'Inter', sans-serif;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        .editorial-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .matte-overlay {
+            background: linear-gradient(180deg, rgba(14, 14, 14, 0) 0%, rgba(14, 14, 14, 1) 100%);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background selection:bg-primary selection:text-on-primary">
+<!-- Top Navigation -->
+<nav class="flex justify-between items-center px-8 h-16 w-full bg-[#0e0e0e] border-b border-[#484848]/15 font-['Space_Grotesk'] tracking-widest uppercase text-xs">
+<div class="text-xl font-bold tracking-tighter text-[#faf9f9] transition-all duration-300">BATTLE ARENA</div>
+<div class="hidden md:flex items-center gap-8">
+<a class="text-[#faf9f9] border-b border-[#faf9f9] pb-1 hover:text-[#faf9f9] transition-colors duration-300 ease-in-out" href="#">Arena</a>
+<a class="text-[#9f9d9d] hover:text-[#faf9f9] transition-colors duration-300 ease-in-out" href="#">Leaderboard</a>
+<a class="text-[#9f9d9d] hover:text-[#faf9f9] transition-colors duration-300 ease-in-out" href="#">History</a>
+<a class="text-[#9f9d9d] hover:text-[#faf9f9] transition-colors duration-300 ease-in-out" href="#">Armory</a>
+</div>
+<div class="flex items-center gap-6 text-[#c6c6c6]">
+<span class="material-symbols-outlined cursor-pointer hover:text-[#faf9f9] transition-all">settings</span>
+<span class="material-symbols-outlined cursor-pointer hover:text-[#faf9f9] transition-all">account_circle</span>
+</div>
+</nav>
+<main class="max-w-7xl mx-auto px-8 py-12">
+<!-- Header / Challenge Parameter -->
+<header class="mb-16">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-8">
+<div class="max-w-2xl">
+<span class="font-label text-[0.6875rem] uppercase tracking-[0.2em] text-secondary mb-4 block">Current Trial: Logic Efficiency</span>
+<h1 class="font-headline text-5xl md:text-7xl font-bold tracking-tighter text-tertiary mb-6">Recursive Optimization Protocol</h1>
+<p class="text-on-surface-variant leading-relaxed font-light max-w-lg">
+                        Comparing architectural efficiency in recursive depth-first search implementations under memory-constrained environments. Primary focus on latency and spatial complexity.
+                    </p>
+</div>
+<div class="flex flex-col items-end border-l border-outline-variant/30 pl-8 h-fit py-2">
+<span class="font-label text-[0.6875rem] uppercase tracking-widest text-secondary mb-1">Compute Limit</span>
+<span class="font-headline text-2xl font-bold text-tertiary">1024 FLOPS / CYCLE</span>
+</div>
+</div>
+</header>
+<!-- Battle Section -->
+<section class="editorial-grid mb-16">
+<!-- AI Challenger A -->
+<div class="group relative bg-surface-container border border-outline-variant/20 rounded-sm overflow-hidden flex flex-col">
+<div class="p-6 border-b border-outline-variant/15 flex justify-between items-center bg-surface-container-low">
+<div class="flex items-center gap-3">
+<div class="w-3 h-3 bg-primary rounded-full"></div>
+<span class="font-headline font-bold text-sm tracking-widest text-tertiary">MODEL: ARGUS-9</span>
+</div>
+<span class="font-label text-[10px] text-secondary">LATENCY: 14MS</span>
+</div>
+<div class="p-8 font-mono text-sm leading-relaxed text-on-surface/80 bg-surface-container-lowest overflow-x-auto hide-scrollbar">
+<pre><code>def optimize_path(graph, start):
+    stack = [(start, [start])]
+    visited = set()
+    
+    while stack:
+        (vertex, path) = stack.pop()
+        if vertex not in visited:
+            if vertex == goal:
+                return path
+            visited.add(vertex)
+            for next in graph[vertex] - set(path):
+                stack.append((next, path + [next]))</code></pre>
+</div>
+<div class="mt-auto p-6 flex items-center justify-between border-t border-outline-variant/15">
+<div class="flex gap-4">
+<div class="text-center">
+<p class="text-[10px] text-secondary uppercase font-bold tracking-tighter">Memory</p>
+<p class="text-tertiary font-headline font-medium">42.4MB</p>
+</div>
+<div class="text-center">
+<p class="text-[10px] text-secondary uppercase font-bold tracking-tighter">Stability</p>
+<p class="text-tertiary font-headline font-medium">98.2%</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline">verified</span>
+</div>
+</div>
+<!-- AI Challenger B -->
+<div class="group relative bg-surface-container border border-outline-variant/20 rounded-sm overflow-hidden flex flex-col">
+<div class="p-6 border-b border-outline-variant/15 flex justify-between items-center bg-surface-container-low">
+<div class="flex items-center gap-3">
+<div class="w-3 h-3 bg-secondary rounded-full"></div>
+<span class="font-headline font-bold text-sm tracking-widest text-tertiary">MODEL: NEXUS-X</span>
+</div>
+<span class="font-label text-[10px] text-secondary">LATENCY: 22MS</span>
+</div>
+<div class="p-8 font-mono text-sm leading-relaxed text-on-surface/80 bg-surface-container-lowest overflow-x-auto hide-scrollbar">
+<pre><code>function solveRecursively(node, depth) {
+  if (depth &gt; MAX_DEPTH) return null;
+  const signature = computeHash(node);
+  
+  if (cache.has(signature)) {
+    return cache.get(signature);
+  }
+  
+  const results = node.children.map(c =&gt; 
+    solveRecursively(c, depth + 1)
+  );
+  
+  return aggregate(results);
+}</code></pre>
+</div>
+<div class="mt-auto p-6 flex items-center justify-between border-t border-outline-variant/15">
+<div class="flex gap-4">
+<div class="text-center">
+<p class="text-[10px] text-secondary uppercase font-bold tracking-tighter">Memory</p>
+<p class="text-tertiary font-headline font-medium">68.1MB</p>
+</div>
+<div class="text-center">
+<p class="text-[10px] text-secondary uppercase font-bold tracking-tighter">Stability</p>
+<p class="text-tertiary font-headline font-medium">94.5%</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline">error_outline</span>
+</div>
+</div>
+</section>
+<!-- Judge Verdict -->
+<section class="bg-surface-container-low border border-outline-variant/15 p-12 relative overflow-hidden">
+<div class="relative z-10 grid grid-cols-1 md:grid-cols-3 gap-12">
+<div class="md:col-span-1">
+<span class="font-label text-[0.6875rem] uppercase tracking-widest text-secondary mb-4 block">Final Analysis</span>
+<h2 class="font-headline text-3xl font-bold text-tertiary mb-6">Structural Dominance</h2>
+<p class="text-on-surface-variant text-sm leading-relaxed mb-8">
+                        The Argus-9 protocol demonstrates superior spatial management with a 40% reduction in total overhead. Nexus-X exhibited significant cache-thrashing at depths exceeding 256.
+                    </p>
+<button class="bg-primary text-on-primary font-label text-xs font-bold uppercase tracking-widest py-3 px-8 rounded-sm hover:bg-tertiary transition-all">
+                        GENERATE FULL REPORT
+                    </button>
+</div>
+<div class="md:col-span-2 grid grid-cols-2 gap-8">
+<!-- Gauge 1 -->
+<div class="flex flex-col gap-4">
+<div class="flex justify-between items-end">
+<span class="font-label text-[10px] text-secondary uppercase tracking-tight">Logical Precision</span>
+<span class="font-headline text-xl text-tertiary">99.2</span>
+</div>
+<div class="h-[2px] bg-outline-variant/30 w-full relative">
+<div class="absolute top-0 left-0 h-full bg-primary w-[99.2%]"></div>
+</div>
+<p class="text-[10px] text-on-surface-variant leading-tight">Variance within +/- 0.003% under load.</p>
+</div>
+<!-- Gauge 2 -->
+<div class="flex flex-col gap-4">
+<div class="flex justify-between items-end">
+<span class="font-label text-[10px] text-secondary uppercase tracking-tight">Energy Consumption</span>
+<span class="font-headline text-xl text-tertiary">1.4W</span>
+</div>
+<div class="h-[2px] bg-outline-variant/30 w-full relative">
+<div class="absolute top-0 left-0 h-full bg-secondary w-[45%]"></div>
+</div>
+<p class="text-[10px] text-on-surface-variant leading-tight">Optimized for low-voltage inference.</p>
+</div>
+<!-- Gauge 3 -->
+<div class="flex flex-col gap-4">
+<div class="flex justify-between items-end">
+<span class="font-label text-[10px] text-secondary uppercase tracking-tight">Inference Score</span>
+<span class="font-headline text-xl text-tertiary">84.0</span>
+</div>
+<div class="h-[2px] bg-outline-variant/30 w-full relative">
+<div class="absolute top-0 left-0 h-full bg-primary w-[84%]"></div>
+</div>
+<p class="text-[10px] text-on-surface-variant leading-tight">Weighted aggregate of all trial data.</p>
+</div>
+<!-- Gauge 4 -->
+<div class="flex flex-col gap-4">
+<div class="flex justify-between items-end">
+<span class="font-label text-[10px] text-secondary uppercase tracking-tight">Token Velocity</span>
+<span class="font-headline text-xl text-tertiary">144K</span>
+</div>
+<div class="h-[2px] bg-outline-variant/30 w-full relative">
+<div class="absolute top-0 left-0 h-full bg-primary w-[92%]"></div>
+</div>
+<p class="text-[10px] text-on-surface-variant leading-tight">Throughput sustained for 300s duration.</p>
+</div>
+</div>
+</div>
+<!-- Abstract background shape -->
+<div class="absolute top-0 right-0 w-1/3 h-full bg-surface-container-highest/20 -skew-x-12 translate-x-12"></div>
+</section>
+<!-- Decorative Image/Texture -->
+<div class="mt-24 h-[400px] w-full bg-surface-container border border-outline-variant/10 overflow-hidden relative grayscale">
+<img class="w-full h-full object-cover opacity-40 mix-blend-overlay" data-alt="abstract architectural geometry with deep shadows and sharp highlights on matte black concrete surfaces" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB1yz9JMYv6s1URC-w6AYusqJvz1BahXtmn0DLB4NJ5C4dbks6gTufoKNLzYk9kgqdIcBfWtmLpufoQB1qgzzMZkgyQeB-WC3Qjna3AcZO6kY7sHZ_yRDrKpxCIwn9f8SitHoJKN0ba4pl3K2iKaA28MTPo2ISgxk2CUVepAnJTQS-_h0UB1tQTq3Ph31gonGlG2SLESDK4smRkncHQenHbAXmmtmedx0ENxmxYwH-3ivLMZh95hIBQv-RzPqFnMLpOdZ8L-QGuG_px"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background to-transparent"></div>
+<div class="absolute bottom-12 left-12">
+<span class="font-headline font-bold text-4xl text-tertiary tracking-tighter">ARCHITECTURAL<br/>INTEGRITY</span>
+</div>
+</div>
+</main>
+<!-- Side Navigation (Strategic Oversight Shell) -->
+<aside class="hidden md:flex fixed left-0 top-16 h-[calc(100vh-4rem)] w-64 bg-[#0e0e0e] border-r border-[#484848]/15 flex-col py-6 px-4 gap-4 transition-all duration-300 ease-linear font-['Inter'] text-sm tracking-tight">
+<div class="mb-8 px-2">
+<h3 class="text-lg font-black text-[#faf9f9]">STRATEGIC OVERSIGHT</h3>
+<p class="text-[10px] text-secondary uppercase tracking-[0.2em]">Protocol v4.0</p>
+</div>
+<nav class="flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2 text-[#faf9f9] font-semibold bg-[#262626] rounded-sm transition-all duration-300" href="#">
+<span class="material-symbols-outlined text-lg">terminal</span>
+                Command Center
+            </a>
+<a class="flex items-center gap-3 px-3 py-2 text-[#9f9d9d] hover:bg-[#1a1919] hover:text-[#faf9f9] transition-all duration-300" href="#">
+<span class="material-symbols-outlined text-lg">psychology</span>
+                Neural Link
+            </a>
+<a class="flex items-center gap-3 px-3 py-2 text-[#9f9d9d] hover:bg-[#1a1919] hover:text-[#faf9f9] transition-all duration-300" href="#">
+<span class="material-symbols-outlined text-lg">receipt_long</span>
+                Combat Logs
+            </a>
+<a class="flex items-center gap-3 px-3 py-2 text-[#9f9d9d] hover:bg-[#1a1919] hover:text-[#faf9f9] transition-all duration-300" href="#">
+<span class="material-symbols-outlined text-lg">reorder</span>
+                Fleet Status
+            </a>
+<a class="flex items-center gap-3 px-3 py-2 text-[#9f9d9d] hover:bg-[#1a1919] hover:text-[#faf9f9] transition-all duration-300" href="#">
+<span class="material-symbols-outlined text-lg">rocket_launch</span>
+                Deploy
+            </a>
+</nav>
+<div class="mt-4 px-2">
+<button class="w-full py-3 bg-surface-container-highest text-tertiary font-bold tracking-widest text-[10px] uppercase border border-outline-variant/30 hover:bg-primary hover:text-on-primary transition-all">
+                INITIALIZE BATTLE
+            </button>
+</div>
+<div class="mt-auto border-t border-outline-variant/15 pt-4">
+<a class="flex items-center gap-3 px-3 py-2 text-[#9f9d9d] hover:text-[#faf9f9] text-xs" href="#">
+<span class="material-symbols-outlined text-sm">help_outline</span>
+                Support
+            </a>
+<a class="flex items-center gap-3 px-3 py-2 text-[#9f9d9d] hover:text-[#faf9f9] text-xs" href="#">
+<span class="material-symbols-outlined text-sm">logout</span>
+                Secure Logout
+            </a>
+</div>
+</aside>
+<!-- Bottom Navigation (Mobile) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-16 px-4 pb-safe bg-[#0e0e0e]/90 backdrop-blur-xl border-t border-[#484848]/15 shadow-[0_-10px_40px_rgba(231,229,228,0.04)] font-['Inter'] text-[10px] uppercase font-bold tracking-tighter">
+<a class="flex flex-col items-center justify-center text-[#faf9f9] bg-[#262626] rounded-sm py-1 px-3 scale-95 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">swords</span>
+            Arena
+        </a>
+<a class="flex flex-col items-center justify-center text-[#9f9d9d] transition-transform duration-150 active:scale-95" href="#">
+<span class="material-symbols-outlined">settings_input_component</span>
+            Command
+        </a>
+<a class="flex flex-col items-center justify-center text-[#9f9d9d] transition-transform duration-150 active:scale-95" href="#">
+<span class="material-symbols-outlined">list_alt</span>
+            Logs
+        </a>
+<a class="flex flex-col items-center justify-center text-[#9f9d9d] transition-transform duration-150 active:scale-95" href="#">
+<span class="material-symbols-outlined">person</span>
+            Profile
+        </a>
+</nav>
+<!-- Content Padding for Mobile Nav -->
+<div class="h-16 md:hidden"></div>
+</body></html>
