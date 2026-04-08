@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import axios from 'axios';
 import '../index.css';
 import Navbar from '../components/Navbar';
 import ProblemCard from '../components/ProblemCard';
@@ -15,7 +16,7 @@ const MOCK_RESPONSE = {
     Time Complexity: O(n) | Space Complexity: O(n)
     """
     memo = {}
-    
+
     def fib_helper(k):
         if k in memo:
             return memo[k]
@@ -23,7 +24,7 @@ const MOCK_RESPONSE = {
             return k
         memo[k] = fib_helper(k - 1) + fib_helper(k - 2)
         return memo[k]
-    
+
     return fib_helper(n)
 
 # Generate first n Fibonacci numbers
@@ -37,16 +38,16 @@ print(fibonacci_sequence(10))
   solution_2: `function fibonacci(n) {
   // Iterative approach - most space-efficient
   // Time Complexity: O(n) | Space Complexity: O(1)
-  
+
   if (n <= 0) return [];
   if (n === 1) return [0];
-  
+
   const sequence = [0, 1];
-  
+
   for (let i = 2; i < n; i++) {
     sequence.push(sequence[i - 1] + sequence[i - 2]);
   }
-  
+
   return sequence;
 }
 
@@ -59,7 +60,6 @@ function* fibonacciGenerator() {
   }
 }
 
-// Usage
 console.log(fibonacci(10));
 // Output: [0, 1, 1, 2, 3, 5, 8, 13, 21, 34]`,
 
@@ -71,25 +71,31 @@ console.log(fibonacci(10));
   }
 };
 
-/* ─── Loading Skeleton ───────────────────────────────────────── */
+/* ─── Skeleton ───────────────────────────────────────────────── */
 function Skeleton({ height = 200, delay = 0 }) {
   return (
     <div style={{
       height,
-      borderRadius: 'var(--radius-xl)',
-      background: 'linear-gradient(90deg, var(--surface-high) 25%, var(--surface-bright) 50%, var(--surface-high) 75%)',
+      borderRadius: 'var(--radius-lg)',
+      background: 'linear-gradient(90deg, #111 25%, #1a1a1a 50%, #111 75%)',
       backgroundSize: '200% 100%',
-      animation: `shimmer 1.8s ease-in-out infinite ${delay}ms`,
+      animation: `shimmer 1.6s ease-in-out infinite ${delay}ms`,
     }} />
   );
 }
 
-/* ─── Empty State ───────────────────────────────────────────── */
+/* ─── Empty State ────────────────────────────────────────────── */
 function EmptyState() {
   const features = [
     { icon: '⚡', label: 'Dual AI Models', desc: 'Two models compete live' },
-    { icon: '🎯', label: 'Expert Judging', desc: 'AI-powered scoring & analysis' },
-    { icon: '📊', label: 'Visual Scores', desc: 'Beautiful comparison metrics' },
+    { icon: '◎', label: 'Expert Judging', desc: 'AI-powered scoring & analysis' },
+    { icon: '▦', label: 'Visual Scores', desc: 'Beautiful comparison metrics' },
+  ];
+
+  const samples = [
+    'Fibonacci sequence in Python',
+    'Sort algorithm comparison',
+    'Explain REST vs GraphQL',
   ];
 
   return (
@@ -101,69 +107,44 @@ function EmptyState() {
       justifyContent: 'center',
       padding: '4rem 2rem',
       textAlign: 'center',
-      animation: 'fadeIn 0.6s ease',
+      animation: 'fadeIn 0.5s ease',
     }}>
-      {/* Glow orb */}
+      {/* Icon */}
       <div style={{
-        width: 120,
-        height: 120,
+        width: 72,
+        height: 72,
         borderRadius: '50%',
-        background: 'radial-gradient(circle, rgba(76,215,246,0.15) 0%, rgba(139,92,246,0.1) 50%, transparent 70%)',
+        background: '#151515',
+        border: '1px solid rgba(255,255,255,0.10)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
         marginBottom: '2rem',
-        animation: 'float 4s ease-in-out infinite',
-        position: 'relative',
       }}>
-        <div style={{
-          position: 'absolute',
-          inset: 10,
-          borderRadius: '50%',
-          border: '1px solid rgba(76,215,246,0.2)',
-          animation: 'float 4s ease-in-out infinite reverse',
-        }} />
-        <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
-          <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"
-            fill="url(#bolt)"
-            style={{ filter: 'drop-shadow(0 0 8px #4cd7f6)' }}
-          />
-          <defs>
-            <linearGradient id="bolt" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#4cd7f6" />
-              <stop offset="100%" stopColor="#8B5CF6" />
-            </linearGradient>
-          </defs>
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+          <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" fill="#888" />
         </svg>
       </div>
 
       <h1 style={{
         fontFamily: 'var(--font-display)',
         fontWeight: 700,
-        fontSize: 'clamp(1.75rem, 3vw, 2.5rem)',
+        fontSize: 'clamp(1.75rem, 3vw, 2.375rem)',
         letterSpacing: '-0.03em',
-        color: 'var(--on-surface)',
+        color: 'var(--text-primary)',
         marginBottom: '0.75rem',
         lineHeight: 1.2,
       }}>
-        Welcome to{' '}
-        <span style={{
-          background: 'linear-gradient(135deg, #4cd7f6 0%, #d0bcff 100%)',
-          WebkitBackgroundClip: 'text',
-          WebkitTextFillColor: 'transparent',
-          backgroundClip: 'text',
-        }}>
-          AI Battle Arena
-        </span>
+        Welcome to AI Battle Arena
       </h1>
 
       <p style={{
         fontSize: '1rem',
-        color: 'var(--on-surface-muted)',
+        color: 'var(--text-secondary)',
         fontFamily: 'var(--font-body)',
         lineHeight: 1.7,
-        maxWidth: 480,
-        marginBottom: '3rem',
+        maxWidth: 460,
+        marginBottom: '2.5rem',
       }}>
         Submit any problem and watch two cutting-edge AI models compete to deliver the best solution — judged in real time.
       </p>
@@ -171,45 +152,45 @@ function EmptyState() {
       {/* Feature pills */}
       <div style={{
         display: 'flex',
-        gap: '1rem',
+        gap: '0.75rem',
         flexWrap: 'wrap',
         justifyContent: 'center',
-        marginBottom: '3rem',
+        marginBottom: '2.5rem',
       }}>
         {features.map(f => (
           <div key={f.label} style={{
             display: 'flex',
             alignItems: 'center',
             gap: 10,
-            background: 'var(--surface-high)',
-            border: '1px solid rgba(73,68,84,0.35)',
+            background: '#111111',
+            border: '1px solid rgba(255,255,255,0.08)',
             borderRadius: 'var(--radius-full)',
-            padding: '10px 18px',
+            padding: '9px 16px',
           }}>
-            <span style={{ fontSize: '1.25rem' }}>{f.icon}</span>
+            <span style={{ fontSize: '1rem', opacity: 0.6 }}>{f.icon}</span>
             <div style={{ textAlign: 'left' }}>
               <div style={{
                 fontFamily: 'var(--font-display)',
                 fontWeight: 600,
-                fontSize: '0.875rem',
-                color: 'var(--on-surface)',
+                fontSize: '0.8125rem',
+                color: 'var(--text-primary)',
               }}>{f.label}</div>
               <div style={{
-                fontSize: '0.75rem',
-                color: 'var(--on-surface-muted)',
+                fontSize: '0.725rem',
+                color: 'var(--text-tertiary)',
               }}>{f.desc}</div>
             </div>
           </div>
         ))}
       </div>
 
-      {/* Prompt suggestions */}
+      {/* Sample prompts */}
       <div style={{ marginBottom: '0.5rem' }}>
         <span style={{
-          fontSize: '0.75rem',
+          fontSize: '0.6875rem',
           letterSpacing: '0.08em',
           textTransform: 'uppercase',
-          color: 'var(--on-surface-muted)',
+          color: 'var(--text-tertiary)',
           fontFamily: 'var(--font-body)',
           fontWeight: 500,
         }}>
@@ -217,18 +198,14 @@ function EmptyState() {
         </span>
       </div>
       <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', justifyContent: 'center' }}>
-        {[
-          'Fibonacci sequence in Python',
-          'Sort algorithm comparison',
-          'Explain REST vs GraphQL',
-        ].map(prompt => (
+        {samples.map(prompt => (
           <button
             key={prompt}
             style={{
-              background: 'var(--surface-mid)',
-              border: '1px solid rgba(73,68,84,0.35)',
+              background: '#111',
+              border: '1px solid rgba(255,255,255,0.09)',
               borderRadius: 'var(--radius-full)',
-              color: 'var(--on-surface-muted)',
+              color: 'var(--text-secondary)',
               fontSize: '0.8125rem',
               padding: '6px 14px',
               cursor: 'pointer',
@@ -236,14 +213,12 @@ function EmptyState() {
               transition: 'all 0.2s',
             }}
             onMouseEnter={e => {
-              e.currentTarget.style.borderColor = 'rgba(76,215,246,0.3)';
-              e.currentTarget.style.color = '#4cd7f6';
-              e.currentTarget.style.background = 'rgba(76,215,246,0.06)';
+              e.currentTarget.style.borderColor = 'rgba(255,255,255,0.22)';
+              e.currentTarget.style.color = 'var(--text-primary)';
             }}
             onMouseLeave={e => {
-              e.currentTarget.style.borderColor = 'rgba(73,68,84,0.35)';
-              e.currentTarget.style.color = 'var(--on-surface-muted)';
-              e.currentTarget.style.background = 'var(--surface-mid)';
+              e.currentTarget.style.borderColor = 'rgba(255,255,255,0.09)';
+              e.currentTarget.style.color = 'var(--text-secondary)';
             }}
           >
             {prompt}
@@ -261,25 +236,17 @@ export default function App() {
   const [currentProblem, setCurrentProblem] = useState('');
 
   const handleSubmit = async (problem) => {
+    console.log('📤 Sending problem:', problem);
     setCurrentProblem(problem);
     setIsLoading(true);
     setResult(null);
 
     try {
-      // TODO: Replace with real API call:
-      // const res = await fetch('/api/battle', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify({ problem }),
-      // });
-      // const data = await res.json();
-      // setResult(data);
-
-      // Simulate API delay
-      await new Promise(r => setTimeout(r, 2200));
-      setResult({ ...MOCK_RESPONSE, problem });
+      const response = await axios.post('http://localhost:3000/invoke', { problem });
+      console.log('✅ API Response:', response.data);
+      setResult(response.data.result);
     } catch (err) {
-      console.error('Battle API error:', err);
+      console.error('❌ Battle API error:', err);
     } finally {
       setIsLoading(false);
     }
@@ -298,7 +265,6 @@ export default function App() {
     }}>
       <Navbar hasResult={!!result} />
 
-      {/* Main content */}
       <main style={{
         flex: 1,
         display: 'flex',
@@ -307,97 +273,85 @@ export default function App() {
         width: '100%',
         margin: '0 auto',
         padding: '0 1.5rem',
-        paddingTop: '2rem',
+        paddingTop: '1.75rem',
         paddingBottom: '0.5rem',
-        gap: '1.5rem',
+        gap: '1.25rem',
       }}>
 
-        {/* Loading State */}
+        {/* Loading */}
         {isLoading && (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', animation: 'fadeIn 0.3s ease' }}>
-            {/* Loading indicator */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem', animation: 'fadeIn 0.3s ease' }}>
             <div style={{
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              gap: 12,
-              padding: '1rem',
+              gap: 10,
+              padding: '0.75rem',
             }}>
               <div style={{
-                width: 10,
-                height: 10,
+                width: 8,
+                height: 8,
                 borderRadius: '50%',
-                background: '#4cd7f6',
-                boxShadow: '0 0 10px #4cd7f6',
+                background: '#555',
                 animation: 'blink 1s ease-in-out infinite',
               }} />
               <span style={{
                 fontFamily: 'var(--font-display)',
                 fontWeight: 600,
-                fontSize: '1rem',
-                color: 'var(--on-surface)',
+                fontSize: '0.9375rem',
+                color: 'var(--text-secondary)',
                 letterSpacing: '-0.01em',
               }}>
                 AI models are generating solutions…
               </span>
             </div>
-            {/* Problem preview */}
+
+            {/* Problem preview during load */}
             <div style={{
-              background: 'var(--surface-mid)',
-              borderRadius: 'var(--radius-xl)',
-              padding: '1.25rem 1.75rem',
-              border: '1px solid rgba(73,68,84,0.3)',
+              background: '#111111',
+              borderRadius: 'var(--radius-lg)',
+              padding: '1.125rem 1.5rem',
+              border: '1px solid rgba(255,255,255,0.07)',
             }}>
-              <div style={{ fontSize: '0.6875rem', color: '#4cd7f6', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 6 }}>
+              <div style={{ fontSize: '0.6875rem', color: 'var(--text-tertiary)', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 6 }}>
                 Problem Statement
               </div>
-              <p style={{ color: 'var(--on-surface)', fontFamily: 'var(--font-display)', fontWeight: 500 }}>
+              <p style={{ color: 'var(--text-primary)', fontFamily: 'var(--font-display)', fontWeight: 500 }}>
                 {currentProblem}
               </p>
             </div>
+
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.25rem' }}>
-              <Skeleton height={340} delay={0} />
-              <Skeleton height={340} delay={150} />
+              <Skeleton height={320} delay={0} />
+              <Skeleton height={320} delay={120} />
             </div>
-            <Skeleton height={260} delay={300} />
+            <Skeleton height={240} delay={260} />
           </div>
         )}
 
-        {/* Empty State */}
+        {/* Empty state */}
         {!isLoading && !result && <EmptyState />}
 
         {/* Results */}
         {!isLoading && result && (
           <>
-            {/* Problem */}
             <ProblemCard problem={result.problem} />
 
-            {/* Solutions */}
             <div style={{
               display: 'grid',
               gridTemplateColumns: '1fr 1fr',
               gap: '1.25rem',
               alignItems: 'stretch',
             }}>
-              <SolutionCard
-                number={1}
-                solution={result.solution_1}
-                isWinner={winner === 1}
-              />
-              <SolutionCard
-                number={2}
-                solution={result.solution_2}
-                isWinner={winner === 2}
-              />
+              <SolutionCard number={1} solution={result.solution_1} isWinner={winner === 1} />
+              <SolutionCard number={2} solution={result.solution_2} isWinner={winner === 2} />
             </div>
 
-            {/* Judge */}
             <JudgeVerdict judge={result.judge} />
           </>
         )}
       </main>
 
-      {/* Sticky Input */}
       <MessageInput onSubmit={handleSubmit} isLoading={isLoading} />
     </div>
   );

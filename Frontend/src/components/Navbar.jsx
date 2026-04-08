@@ -6,48 +6,45 @@ export default function Navbar({ hasResult }) {
         position: 'sticky',
         top: 0,
         zIndex: 50,
-        height: '64px',
+        height: '60px',
         display: 'flex',
         alignItems: 'center',
         paddingInline: '2rem',
-        background: 'rgba(19,19,24,0.7)',
-        backdropFilter: 'blur(20px)',
-        WebkitBackdropFilter: 'blur(20px)',
-        borderBottom: '1px solid rgba(73,68,84,0.2)',
+        background: 'rgba(10,10,10,0.92)',
+        backdropFilter: 'blur(12px)',
+        WebkitBackdropFilter: 'blur(12px)',
+        borderBottom: '1px solid rgba(255,255,255,0.07)',
       }}
     >
       {/* Logo */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flex: 1 }}>
         <div style={{
-          width: 36,
-          height: 36,
-          borderRadius: 10,
-          background: 'linear-gradient(135deg, #4cd7f6 0%, #8B5CF6 100%)',
+          width: 34,
+          height: 34,
+          borderRadius: 8,
+          background: '#1a1a1a',
+          border: '1px solid rgba(255,255,255,0.12)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          boxShadow: '0 0 20px rgba(76,215,246,0.3)',
           flexShrink: 0,
         }}>
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" fill="white" />
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" fill="#e0e0e0" />
           </svg>
         </div>
         <span style={{
           fontFamily: 'var(--font-display)',
           fontWeight: 700,
-          fontSize: '1.125rem',
+          fontSize: '1.0625rem',
           letterSpacing: '-0.02em',
-          background: 'linear-gradient(135deg, #4cd7f6 0%, #d0bcff 100%)',
-          WebkitBackgroundClip: 'text',
-          WebkitTextFillColor: 'transparent',
-          backgroundClip: 'text',
+          color: 'var(--text-primary)',
         }}>
           AI Battle Arena
         </span>
       </div>
 
-      {/* Center Badge */}
+      {/* Center badge */}
       <div style={{
         position: 'absolute',
         left: '50%',
@@ -55,51 +52,50 @@ export default function Navbar({ hasResult }) {
         display: 'flex',
         alignItems: 'center',
         gap: 6,
-        background: 'rgba(27,27,32,0.8)',
-        border: '1px solid rgba(73,68,84,0.4)',
+        background: 'var(--surface-2)',
+        border: '1px solid var(--border-default)',
         borderRadius: 'var(--radius-full)',
         padding: '4px 14px',
-        fontSize: '0.75rem',
-        fontWeight: 500,
-        color: 'var(--on-surface-muted)',
+        fontSize: '0.6875rem',
+        fontWeight: 600,
+        color: 'var(--text-secondary)',
         fontFamily: 'var(--font-body)',
-        letterSpacing: '0.05em',
+        letterSpacing: '0.08em',
         textTransform: 'uppercase',
       }}>
         <span style={{
           width: 6,
           height: 6,
           borderRadius: '50%',
-          background: hasResult ? '#4cd7f6' : '#4ade80',
-          boxShadow: hasResult ? '0 0 8px #4cd7f6' : '0 0 8px #4ade80',
-          animation: 'pulseGlow 2s ease-in-out infinite',
+          background: hasResult ? '#d0d0d0' : '#888',
         }} />
         {hasResult ? 'Battle Complete' : 'Ready to Battle'}
       </div>
 
-      {/* Right Actions */}
-      <div style={{ flex: 1, display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: 12 }}>
+      {/* Right actions */}
+      <div style={{ flex: 1, display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: 10 }}>
         <button
           id="nav-docs-btn"
           style={{
             background: 'none',
-            border: '1px solid rgba(73,68,84,0.4)',
+            border: '1px solid var(--border-default)',
             borderRadius: 'var(--radius-full)',
-            color: 'var(--on-surface-muted)',
-            padding: '6px 16px',
+            color: 'var(--text-secondary)',
+            padding: '5px 14px',
             fontSize: '0.8125rem',
             fontFamily: 'var(--font-body)',
             cursor: 'pointer',
             transition: 'all 0.2s',
             fontWeight: 500,
+            letterSpacing: '0.02em',
           }}
           onMouseEnter={e => {
-            e.currentTarget.style.borderColor = 'rgba(76,215,246,0.4)';
-            e.currentTarget.style.color = 'var(--primary)';
+            e.currentTarget.style.borderColor = 'rgba(255,255,255,0.25)';
+            e.currentTarget.style.color = 'var(--text-primary)';
           }}
           onMouseLeave={e => {
-            e.currentTarget.style.borderColor = 'rgba(73,68,84,0.4)';
-            e.currentTarget.style.color = 'var(--on-surface-muted)';
+            e.currentTarget.style.borderColor = 'var(--border-default)';
+            e.currentTarget.style.color = 'var(--text-secondary)';
           }}
         >
           Docs
@@ -108,14 +104,15 @@ export default function Navbar({ hasResult }) {
           width: 32,
           height: 32,
           borderRadius: '50%',
-          background: 'linear-gradient(135deg, #571bc1, #009eb9)',
+          background: 'var(--surface-4)',
+          border: '1px solid var(--border-default)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
           fontSize: '0.8125rem',
           fontWeight: 700,
           fontFamily: 'var(--font-display)',
-          color: 'white',
+          color: 'var(--text-primary)',
           cursor: 'pointer',
           flexShrink: 0,
         }}>

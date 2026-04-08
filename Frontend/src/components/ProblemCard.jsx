@@ -3,66 +3,50 @@ export default function ProblemCard({ problem }) {
     <div
       id="problem-card"
       style={{
-        background: 'var(--surface-mid)',
-        borderRadius: 'var(--radius-xl)',
-        padding: '1.5rem 2rem',
-        border: '1px solid rgba(73,68,84,0.3)',
-        boxShadow: '0 4px 24px rgba(0,0,0,0.3)',
-        animation: 'fadeInUp 0.5s ease both',
-        position: 'relative',
-        overflow: 'hidden',
+        background: 'var(--surface-1)',
+        borderRadius: 'var(--radius-lg)',
+        padding: '1.25rem 1.75rem',
+        border: '1px solid var(--border-subtle)',
+        animation: 'fadeInUp 0.4s ease both',
       }}
     >
-      {/* Subtle top glow line */}
-      <div style={{
-        position: 'absolute',
-        top: 0, left: '10%', right: '10%', height: '1px',
-        background: 'linear-gradient(90deg, transparent, rgba(76,215,246,0.5), rgba(208,188,255,0.5), transparent)',
-      }} />
-
       <div style={{ display: 'flex', alignItems: 'flex-start', gap: '1rem' }}>
         {/* Icon */}
         <div style={{
-          width: 42,
-          height: 42,
+          width: 36,
+          height: 36,
           borderRadius: 'var(--radius-md)',
-          background: 'rgba(76,215,246,0.1)',
-          border: '1px solid rgba(76,215,246,0.2)',
+          background: 'var(--surface-3)',
+          border: '1px solid var(--border-default)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
           flexShrink: 0,
           marginTop: 2,
         }}>
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4cd7f6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#888" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <circle cx="12" cy="12" r="3" />
             <path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83" />
           </svg>
         </div>
 
         <div style={{ flex: 1, minWidth: 0 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.5rem' }}>
-            <span style={{
-              fontSize: '0.6875rem',
-              fontWeight: 600,
-              letterSpacing: '0.12em',
-              textTransform: 'uppercase',
-              color: '#4cd7f6',
-              fontFamily: 'var(--font-body)',
-            }}>
-              Problem Statement
-            </span>
-            <div style={{
-              height: 1,
-              flex: 1,
-              background: 'linear-gradient(90deg, rgba(76,215,246,0.3), transparent)',
-            }} />
+          <div style={{
+            fontSize: '0.6875rem',
+            fontWeight: 600,
+            letterSpacing: '0.12em',
+            textTransform: 'uppercase',
+            color: 'var(--text-tertiary)',
+            fontFamily: 'var(--font-body)',
+            marginBottom: '0.5rem',
+          }}>
+            Problem Statement
           </div>
           <p style={{
             fontFamily: 'var(--font-display)',
             fontWeight: 500,
             fontSize: '1.0625rem',
-            color: 'var(--on-surface)',
+            color: 'var(--text-primary)',
             lineHeight: 1.6,
             letterSpacing: '-0.01em',
           }}>
