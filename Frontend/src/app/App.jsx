@@ -1,5 +1,4 @@
-import { useState } from 'react';
-import axios from 'axios';
+import { useState, useEffect, useRef } from 'react';
 import '../index.css';
 import Navbar from '../components/Navbar';
 import ProblemCard from '../components/ProblemCard';
@@ -85,7 +84,7 @@ function Skeleton({ height = 200, delay = 0 }) {
 }
 
 /* ─── Empty State ────────────────────────────────────────────── */
-function EmptyState() {
+function EmptyState({ onSampleClick }) {
   const features = [
     { icon: '⚡', label: 'Dual AI Models', desc: 'Two models compete live' },
     { icon: '◎', label: 'Expert Judging', desc: 'AI-powered scoring & analysis' },
@@ -114,28 +113,35 @@ function EmptyState() {
         width: 72,
         height: 72,
         borderRadius: '50%',
-        background: '#151515',
-        border: '1px solid rgba(255,255,255,0.10)',
+        background: '#ffffff',
+        border: '1px solid rgba(0,0,0,0.08)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
         marginBottom: '2rem',
       }}>
-        <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
-          <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" fill="#888" />
+        <svg width="32" height="32" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="var(--color-terracotta)" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M12 18V5"/>
+          <path d="M15 13a4.17 4.17 0 0 1-3-4 4.17 4.17 0 0 1-3 4"/>
+          <path d="M17.598 6.5A3 3 0 1 0 12 5a3 3 0 1 0-5.598 1.5"/>
+          <path d="M17.997 5.125a4 4 0 0 1 2.526 5.77"/>
+          <path d="M18 18a4 4 0 0 0 2-7.464"/>
+          <path d="M19.967 17.483A4 4 0 1 1 12 18a4 4 0 1 1-7.967-.517"/>
+          <path d="M6 18a4 4 0 0 1-2-7.464"/>
+          <path d="M6.003 5.125a4 4 0 0 0-2.526 5.77"/>
         </svg>
       </div>
 
       <h1 style={{
         fontFamily: 'var(--font-display)',
-        fontWeight: 700,
+        fontWeight: 400,
         fontSize: 'clamp(1.75rem, 3vw, 2.375rem)',
         letterSpacing: '-0.03em',
         color: 'var(--text-primary)',
         marginBottom: '0.75rem',
         lineHeight: 1.2,
       }}>
-        Welcome to AI Battle Arena
+        Welcome to Duel AI
       </h1>
 
       <p style={{
@@ -155,6 +161,8 @@ function EmptyState() {
         gap: '0.75rem',
         flexWrap: 'wrap',
         justifyContent: 'center',
+        alignItems: 'center',
+        width: '100%',
         marginBottom: '2.5rem',
       }}>
         {features.map(f => (
@@ -162,17 +170,30 @@ function EmptyState() {
             display: 'flex',
             alignItems: 'center',
             gap: 10,
-            background: '#111111',
-            border: '1px solid rgba(255,255,255,0.08)',
+            background: '#ffffff',
+            border: '1px solid #e5e7eb',
             borderRadius: 'var(--radius-full)',
             padding: '9px 16px',
-          }}>
+            boxShadow: '0 1px 2px rgba(0,0,0,0.05)',
+            transition: 'all 0.2s ease',
+            cursor: 'default',
+            transform: 'translateY(0)',
+          }}
+          onMouseEnter={e => {
+            e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)';
+            e.currentTarget.style.transform = 'translateY(-4px)';
+          }}
+          onMouseLeave={e => {
+            e.currentTarget.style.boxShadow = '0 1px 2px rgba(0,0,0,0.05)';
+            e.currentTarget.style.transform = 'translateY(0)';
+          }}
+          >
             <span style={{ fontSize: '1rem', opacity: 0.6 }}>{f.icon}</span>
             <div style={{ textAlign: 'left' }}>
               <div style={{
                 fontFamily: 'var(--font-display)',
-                fontWeight: 600,
-                fontSize: '0.8125rem',
+                fontWeight: 400,
+                fontSize: '0.75rem',
                 color: 'var(--text-primary)',
               }}>{f.label}</div>
               <div style={{
@@ -197,28 +218,31 @@ function EmptyState() {
           Try a sample prompt:
         </span>
       </div>
-      <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', justifyContent: 'center' }}>
+      <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center', width: '100%' }}>
         {samples.map(prompt => (
           <button
             key={prompt}
+            onClick={() => onSampleClick(prompt)}
             style={{
-              background: '#111',
-              border: '1px solid rgba(255,255,255,0.09)',
+              background: 'var(--button-bg, #111)',
+              border: 'none',
               borderRadius: 'var(--radius-full)',
-              color: 'var(--text-secondary)',
+              color: 'var(--button-text, var(--text-secondary))',
               fontSize: '0.8125rem',
               padding: '6px 14px',
               cursor: 'pointer',
               fontFamily: 'var(--font-body)',
-              transition: 'all 0.2s',
+              transition: 'all 0.2s ease',
+              boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
+              transform: 'scale(1)',
             }}
             onMouseEnter={e => {
-              e.currentTarget.style.borderColor = 'rgba(255,255,255,0.22)';
-              e.currentTarget.style.color = 'var(--text-primary)';
+              e.currentTarget.style.transform = 'scale(1.05)';
+              e.currentTarget.style.boxShadow = '0 10px 15px rgba(0,0,0,0.15)';
             }}
             onMouseLeave={e => {
-              e.currentTarget.style.borderColor = 'rgba(255,255,255,0.09)';
-              e.currentTarget.style.color = 'var(--text-secondary)';
+              e.currentTarget.style.transform = 'scale(1)';
+              e.currentTarget.style.boxShadow = '0 4px 6px rgba(0,0,0,0.1)';
             }}
           >
             {prompt}
@@ -234,6 +258,51 @@ export default function App() {
   const [result, setResult] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [currentProblem, setCurrentProblem] = useState('');
+  const messageInputRef = useRef(null);
+
+  // Handle sample prompt clicks — populate input field
+  const handleSampleClick = (prompt) => {
+    if (messageInputRef.current) {
+      messageInputRef.current.setValue(prompt);
+      // Focus the textarea for better UX
+      messageInputRef.current.focus();
+    }
+  };
+
+  // Load state from localStorage on mount
+  useEffect(() => {
+    // Load theme preference
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'light') {
+      document.documentElement.setAttribute('data-theme', 'light');
+    } else {
+      document.documentElement.removeAttribute('data-theme');
+    }
+
+    // Load battle state
+    const savedResult = localStorage.getItem('battleResult');
+    const savedProblem = localStorage.getItem('currentProblem');
+    if (savedResult) {
+      setResult(JSON.parse(savedResult));
+    }
+    if (savedProblem) {
+      setCurrentProblem(savedProblem);
+    }
+  }, []);
+
+  // Save result to localStorage whenever it changes
+  useEffect(() => {
+    if (result) {
+      localStorage.setItem('battleResult', JSON.stringify(result));
+    }
+  }, [result]);
+
+  // Save problem to localStorage whenever it changes
+  useEffect(() => {
+    if (currentProblem) {
+      localStorage.setItem('currentProblem', currentProblem);
+    }
+  }, [currentProblem]);
 
   const handleSubmit = async (problem) => {
     console.log('📤 Sending problem:', problem);
@@ -242,9 +311,52 @@ export default function App() {
     setResult(null);
 
     try {
-      const response = await axios.post('http://localhost:3000/invoke', { problem });
-      console.log('✅ API Response:', response.data);
-      setResult(response.data.result);
+      const response = await fetch('http://localhost:3000/invoke', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ problem }),
+      });
+
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+      let buffer = '';
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split('\n');
+        buffer = lines.pop() || '';
+
+        for (const line of lines) {
+          if (line.startsWith('data: ')) {
+            const data = line.slice(6);
+            if (data === '[DONE]') {
+              console.log('✅ Stream complete');
+            } else if (data) {
+              try {
+                const streamedData = JSON.parse(data);
+                console.log('📥 Streamed data:', streamedData);
+                console.log('📥 Has judge?', streamedData.judge !== undefined);
+                console.log('📥 Has solution_1_score?', streamedData.judge?.solution_1_score !== undefined);
+                
+                // Ensure result has the expected structure
+                if (streamedData && streamedData.judge) {
+                  setResult(streamedData);
+                } else {
+                  console.warn('⚠️ Missing expected structure:', { 
+                    hasJudge: !!streamedData.judge,
+                    keys: Object.keys(streamedData || {})
+                  });
+                }
+              } catch (e) {
+                console.error('❌ JSON parse error:', e);
+              }
+            }
+          }
+        }
+      }
     } catch (err) {
       console.error('❌ Battle API error:', err);
     } finally {
@@ -252,9 +364,17 @@ export default function App() {
     }
   };
 
-  const winner = result
+  const winner = result && result.judge && result.judge.solution_1_score !== undefined
     ? (result.judge.solution_1_score >= result.judge.solution_2_score ? 1 : 2)
     : null;
+
+  const handleBack = () => {
+    console.log('🔙 Going back to home');
+    setResult(null);
+    setCurrentProblem('');
+    localStorage.removeItem('battleResult');
+    localStorage.removeItem('currentProblem');
+  };
 
   return (
     <div style={{
@@ -263,7 +383,7 @@ export default function App() {
       flexDirection: 'column',
       background: 'var(--bg)',
     }}>
-      <Navbar hasResult={!!result} />
+      <Navbar hasResult={!!result} onBack={handleBack} />
 
       <main style={{
         flex: 1,
@@ -330,7 +450,7 @@ export default function App() {
         )}
 
         {/* Empty state */}
-        {!isLoading && !result && <EmptyState />}
+        {!isLoading && !result && <EmptyState onSampleClick={handleSampleClick} />}
 
         {/* Results */}
         {!isLoading && result && (
@@ -352,7 +472,7 @@ export default function App() {
         )}
       </main>
 
-      <MessageInput onSubmit={handleSubmit} isLoading={isLoading} />
+      <MessageInput ref={messageInputRef} onSubmit={handleSubmit} isLoading={isLoading} />
     </div>
   );
 }

@@ -18,12 +18,24 @@ app.get("/",async (req,res)=>{
 app.post("/invoke",async (req,res)=>{
     const{problem}=req.body
     console.log('📥 Received problem:', problem);
-    const result = await runGraph(problem)
-    console.log('✅ Graph result:', result);
-    res.status(200).json({
-        message:"graph executed successfully",
-        success:true,
-        result
-    })
+    
+    // Set headers for streaming
+    res.setHeader('Content-Type', 'text/event-stream');
+    res.setHeader('Cache-Control', 'no-cache');
+    res.setHeader('Connection', 'keep-alive');
+    
+    try {
+        const result = await runGraph(problem)
+        console.log('✅ Graph result:', result);
+        
+        // Stream the complete result
+        res.write(`data: ${JSON.stringify(result)}\n\n`)
+        res.write(`data: [DONE]\n\n`)
+        res.end()
+    } catch (error) {
+        console.error('❌ Graph error:', error);
+        res.write(`data: ${JSON.stringify({error: error.message})}\n\n`)
+        res.end()
+    }
 })
 export default app

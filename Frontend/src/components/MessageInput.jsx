@@ -1,8 +1,30 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, forwardRef, useImperativeHandle } from 'react';
 import axios from 'axios';
-export default function MessageInput({ onSubmit, isLoading }) {
+export default forwardRef(function MessageInput({ onSubmit, isLoading }, ref) {
   const [value, setValue] = useState('');
   const textareaRef = useRef(null);
+
+  // Expose methods to parent component
+  useImperativeHandle(ref, () => ({
+    setValue: (text) => {
+      setValue(text);
+      // Auto-grow textarea after setting value
+      if (textareaRef.current) {
+        setTimeout(() => {
+          textareaRef.current.style.height = 'auto';
+          textareaRef.current.style.height = Math.min(textareaRef.current.scrollHeight, 160) + 'px';
+        }, 0);
+      }
+    },
+    focus: () => {
+      if (textareaRef.current) {
+        textareaRef.current.focus();
+        // Move cursor to end
+        textareaRef.current.selectionStart = textareaRef.current.value.length;
+        textareaRef.current.selectionEnd = textareaRef.current.value.length;
+      }
+    }
+  }));
 
   const handleSubmit = () => {
     if (!value.trim() || isLoading) return;
@@ -48,37 +70,21 @@ export default function MessageInput({ onSubmit, isLoading }) {
             display: 'flex',
             alignItems: 'flex-end',
             gap: '0.625rem',
-            background: '#111111',
-            border: '1px solid rgba(255,255,255,0.10)',
+            background: 'rgba(255, 255, 255, 0.7)',
+            backdropFilter: 'blur(12px)',
+            border: '1px solid rgba(0,0,0,0.08)',
             borderRadius: 'var(--radius-xl)',
             padding: '0.625rem 0.75rem',
             transition: 'border-color 0.2s',
+            boxShadow: '0 10px 25px rgba(0,0,0,0.1)',
           }}
           onFocus={e => {
-            e.currentTarget.style.borderColor = 'rgba(255,255,255,0.22)';
+            e.currentTarget.style.borderColor = 'rgba(0,0,0,0.15)';
           }}
           onBlur={e => {
-            e.currentTarget.style.borderColor = 'rgba(255,255,255,0.10)';
+            e.currentTarget.style.borderColor = 'rgba(0,0,0,0.08)';
           }}
         >
-          {/* Icon */}
-          <div style={{
-            width: 32,
-            height: 32,
-            borderRadius: 'var(--radius-md)',
-            background: '#1a1a1a',
-            border: '1px solid rgba(255,255,255,0.08)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            flexShrink: 0,
-            marginBottom: 1,
-          }}>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#666" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
-            </svg>
-          </div>
-
           {/* Textarea */}
           <textarea
             id="problem-input"
@@ -95,7 +101,7 @@ export default function MessageInput({ onSubmit, isLoading }) {
               border: 'none',
               outline: 'none',
               resize: 'none',
-              color: 'var(--text-primary)',
+              color: '#6D6A62',
               fontFamily: 'var(--font-body)',
               fontSize: '0.9375rem',
               lineHeight: 1.6,
@@ -103,14 +109,14 @@ export default function MessageInput({ onSubmit, isLoading }) {
               maxHeight: '160px',
               overflowY: 'auto',
               padding: '3px 0',
-              caretColor: '#aaa',
+              caretColor: '#999',
             }}
           />
 
           {/* Hint */}
           <div style={{
             fontSize: '0.6875rem',
-            color: 'rgba(255,255,255,0.2)',
+            color: 'rgba(0,0,0,0.3)',
             fontFamily: 'var(--font-body)',
             whiteSpace: 'nowrap',
             alignSelf: 'flex-end',
@@ -129,8 +135,8 @@ export default function MessageInput({ onSubmit, isLoading }) {
               width: 36,
               height: 36,
               borderRadius: 'var(--radius-md)',
-              background: canSend ? '#2a2a2a' : '#161616',
-              border: `1px solid ${canSend ? 'rgba(255,255,255,0.20)' : 'rgba(255,255,255,0.06)'}`,
+              background: canSend ? 'var(--button-bg, #2a2a2a)' : 'var(--surface-4, #161616)',
+              border: `1px solid ${canSend ? 'var(--border-default)' : 'var(--border-subtle)'}`,
               cursor: canSend ? 'pointer' : 'not-allowed',
               display: 'flex',
               alignItems: 'center',
@@ -140,13 +146,11 @@ export default function MessageInput({ onSubmit, isLoading }) {
             }}
             onMouseEnter={e => {
               if (canSend) {
-                e.currentTarget.style.background = '#383838';
-                e.currentTarget.style.borderColor = 'rgba(255,255,255,0.30)';
+                e.currentTarget.style.opacity = '0.85';
               }
             }}
             onMouseLeave={e => {
-              e.currentTarget.style.background = canSend ? '#2a2a2a' : '#161616';
-              e.currentTarget.style.borderColor = canSend ? 'rgba(255,255,255,0.20)' : 'rgba(255,255,255,0.06)';
+              e.currentTarget.style.opacity = '1';
             }}
           >
             {isLoading ? (
@@ -183,4 +187,4 @@ export default function MessageInput({ onSubmit, isLoading }) {
       </div>
     </div>
   );
-}
+});

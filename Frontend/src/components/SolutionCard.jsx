@@ -1,8 +1,8 @@
 import { useState } from 'react';
 
 const ACCENT = {
-  1: { label: 'Alpha', borderColor: 'rgba(255,255,255,0.12)', headerBg: '#141414' },
-  2: { label: 'Beta',  borderColor: 'rgba(255,255,255,0.08)', headerBg: '#111111' },
+  1: { label: 'Mistral Response', borderColor: 'rgba(255,255,255,0.12)', headerBg: '#141414' },
+  2: { label: 'Cohere Response',  borderColor: 'rgba(255,255,255,0.08)', headerBg: '#111111' },
 };
 
 function CodeBlock({ code }) {
@@ -40,9 +40,9 @@ function CodeBlock({ code }) {
         <button
           onClick={handleCopy}
           style={{
-            background: 'none',
-            border: '1px solid rgba(255,255,255,0.1)',
-            color: copied ? '#ccc' : 'var(--text-tertiary)',
+            background: 'var(--button-bg, rgba(255,255,255,0.1))',
+            border: 'none',
+            color: 'var(--button-text, var(--text-tertiary))',
             fontSize: '0.6875rem',
             padding: '3px 10px',
             borderRadius: 'var(--radius-full)',
@@ -52,7 +52,7 @@ function CodeBlock({ code }) {
             transition: 'all 0.2s',
           }}
         >
-          {copied ? '✓ Copied' : '⎘ Copy'}
+          {copied ? 'Copied' : 'Copy'}
         </button>
       </div>
       <pre style={{
@@ -259,20 +259,28 @@ export default function SolutionCard({ number = 1, solution, isWinner }) {
             onClick={() => setExpanded(!expanded)}
             style={{
               marginTop: '0.75rem',
-              background: 'none',
+              background: 'var(--button-bg, transparent)',
               border: 'none',
-              color: 'var(--text-secondary)',
+              color: 'var(--button-text, var(--text-secondary))',
               fontSize: '0.8125rem',
               cursor: 'pointer',
               fontFamily: 'var(--font-body)',
               fontWeight: 500,
-              padding: 0,
-              display: 'flex',
+              padding: '6px 12px',
+              display: 'inline-flex',
               alignItems: 'center',
               gap: 4,
+              borderRadius: 'var(--radius-full)',
+              transition: 'opacity 0.2s',
+            }}
+            onMouseEnter={e => {
+              e.currentTarget.style.opacity = '0.9';
+            }}
+            onMouseLeave={e => {
+              e.currentTarget.style.opacity = '1';
             }}
           >
-            {expanded ? '↑ Show less' : '↓ Read more'}
+            {expanded ? 'Show less' : 'Read more'}
           </button>
         )}
       </div>
