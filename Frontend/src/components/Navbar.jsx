@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function Navbar({ hasResult, onBack }) {
+export default function Navbar({ hasResult, onBack, onTestStream }) {
   const [isDarkMode, setIsDarkMode] = React.useState(() => {
     const saved = localStorage.getItem('theme');
     return saved ? saved === 'dark' : true;
@@ -27,7 +27,7 @@ export default function Navbar({ hasResult, onBack }) {
         display: 'flex',
         alignItems: 'center',
         paddingInline: '2rem',
-        background: 'rgba(255, 255, 255, 0.7)',
+        background: isDarkMode ? '#141413' : 'rgba(255, 255, 255, 0.7)',
         backdropFilter: 'blur(12px)',
         WebkitBackdropFilter: 'blur(12px)',
         borderBottom: `1px solid var(--border-default)`,
@@ -131,6 +131,34 @@ export default function Navbar({ hasResult, onBack }) {
 
       {/* Right actions */}
       <div style={{ flex: 1, display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: 10 }}>
+        {/* Test Streaming Button */}
+        {onTestStream && (
+          <button
+            id="test-stream-btn"
+            onClick={onTestStream}
+            title="Test streaming functionality"
+            style={{
+              background: isDarkMode ? 'rgba(255,255,255,0.08)' : '#e8e8e8',
+              border: isDarkMode ? '1px solid rgba(255,255,255,0.1)' : 'none',
+              borderRadius: 'var(--radius-full)',
+              color: isDarkMode ? '#888' : '#666',
+              padding: '6px 12px',
+              fontSize: '0.75rem',
+              fontFamily: 'var(--font-body)',
+              cursor: 'pointer',
+              transition: 'all 0.2s',
+              fontWeight: 500,
+            }}
+            onMouseEnter={e => {
+              e.currentTarget.style.opacity = '0.7';
+            }}
+            onMouseLeave={e => {
+              e.currentTarget.style.opacity = '1';
+            }}
+          >
+            🧪 Test
+          </button>
+        )}
         {/* Theme Toggle Button */}
         <button
           id="theme-toggle-btn"
@@ -172,7 +200,7 @@ export default function Navbar({ hasResult, onBack }) {
         >
           Docs
         </button>
-        <div style={{
+        <div style={{ 
           width: 32,
           height: 32,
           borderRadius: '50%',

@@ -33,21 +33,21 @@
   --color-ring-deep:       #c2c0b6;
 
   /* Background & Surface - DARK MODE */
-  --bg:                    #141413;
-  --surface-0:             #141413;
+  --bg:                    #171614;
+  --surface-0:             #171614;
   --surface-1:             #30302e;
   --surface-2:             #3d3d3a;
   --surface-3:             #4d4c48;
   --surface-4:             #87867f;
 
   /* Text Colors - DARK MODE */
-  --text-primary:          #faf9f5;
+  --text-primary:          #F9F9F6;
   --text-secondary:        #87867f;
   --text-tertiary:         #b0aea5;
 
   /* Borders */
-  --border-subtle:         rgba(255, 255, 255, 0.06);
-  --border-default:        rgba(209, 207, 197, 0.2);
+  --border-subtle:         rgba(77, 76, 72, 0.3);
+  --border-default:        #3d3d3a;
   --border-strong:         #d1cfc5;
 
   /* Accent Colors */
@@ -162,6 +162,29 @@
   --score-low:             #87867f;
 }
 
+[data-theme="light"] body {
+  background-color: #F4F4ED;
+  position: relative;
+  overflow-x: hidden;
+}
+
+[data-theme="light"] body::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('/neural.png');
+  background-size: cover;
+  background-position: top right;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  opacity: 0.15;
+  pointer-events: none;
+  z-index: -1;
+}
+
 /* ─── Reset ─────────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
@@ -174,6 +197,27 @@ body {
   -moz-osx-font-smoothing: grayscale;
   min-height: 100vh;
   overflow-x: hidden;
+  position: relative;
+}
+
+/* DARK MODE: Subtle orange glow effect from center */
+:root body::before {
+  content: '';
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 1200px;
+  height: 1200px;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, rgba(201, 100, 66, 0.12) 0%, rgba(201, 100, 66, 0.04) 40%, transparent 70%);
+  filter: blur(80px);
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* LIGHT MODE: No glow */
+[data-theme="light"] body::before {
+  display: none;
 }
 
 /* ─── Scrollbar ─────────────────────────────────────────────── */
@@ -222,6 +266,38 @@ body {
   from { stroke-dashoffset: 283; }
   to   { stroke-dashoffset: var(--dash-offset); }
 }
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.5; }
+}
+
+/* ─── Streaming Animations ────────────────────────────────────── */
+@keyframes streamingGlowDark {
+  0%, 100% { 
+    border-color: rgba(255,255,255,0.07);
+    box-shadow: 0 0 0 0 rgba(201, 100, 67, 0);
+  }
+  50% { 
+    border-color: rgba(201, 100, 67, 0.3);
+    box-shadow: 0 0 12px rgba(201, 100, 67, 0.2);
+  }
+}
+
+@keyframes streamingGlowLight {
+  0%, 100% { 
+    border-color: #e5e5e5;
+    box-shadow: 0 0 0 0 rgba(201, 100, 67, 0);
+  }
+  50% { 
+    border-color: #C96443;
+    box-shadow: 0 0 12px rgba(201, 100, 67, 0.15);
+  }
+}
+
+@keyframes cursorBlink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
 
 /* ─── Code block ────────────────────────────────────────────── */
 pre {
@@ -232,4 +308,44 @@ pre {
   white-space: pre;
   word-wrap: normal;
 }
+/* ─── Card Component ────────────────────────────────────────── */
+.card {
+  background: var(--surface-1);
+  border: 1px solid #f0eee6;
+  border-radius: 8px;
+  padding: 1.25rem;
+  transition: all 0.2s ease;
+}
+
+.card:hover {
+  border-color: #e8e6dc;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
 code { font-family: var(--font-mono); }
+
+/* ─── Welcome Heading Glow Effect (Dark Mode Only) ──────────────── */
+.welcome-heading {
+  position: relative;
+  text-shadow: 
+    0 0 15px rgba(201, 100, 66, 0.8),
+    0 0 30px rgba(217, 119, 87, 0.7),
+    0 0 45px rgba(201, 100, 66, 0.6),
+    0 0 60px rgba(217, 119, 87, 0.5),
+    0 0 80px rgba(201, 100, 66, 0.4),
+    0 0 100px rgba(217, 119, 87, 0.3);
+}
+
+/* Remove glow in light mode */
+[data-theme="light"] .welcome-heading {
+  text-shadow: none;
+}
+
+/* ─── Textarea Placeholder Styling ──────────────────────────────── */
+#problem-input::placeholder {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+[data-theme="light"] #problem-input::placeholder {
+  color: rgba(0, 0, 0, 0.3);
+}

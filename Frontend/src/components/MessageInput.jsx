@@ -1,8 +1,24 @@
-import { useState, useRef, forwardRef, useImperativeHandle } from 'react';
+import { useState, useRef, useEffect, forwardRef, useImperativeHandle } from 'react';
 import axios from 'axios';
+
+// Theme detection
+const isDarkMode = () => {
+  const html = document.documentElement;
+  const theme = html.getAttribute('data-theme');
+  return !theme || theme === 'dark';
+};
+
 export default forwardRef(function MessageInput({ onSubmit, isLoading }, ref) {
   const [value, setValue] = useState('');
+  const [isDark, setIsDark] = useState(isDarkMode());
   const textareaRef = useRef(null);
+
+  useEffect(() => {
+    const checkTheme = () => setIsDark(isDarkMode());
+    const observer = new MutationObserver(checkTheme);
+    observer.observe(document.documentElement, { attributes: true });
+    return () => observer.disconnect();
+  }, []);
 
   // Expose methods to parent component
   useImperativeHandle(ref, () => ({
@@ -70,19 +86,19 @@ export default forwardRef(function MessageInput({ onSubmit, isLoading }, ref) {
             display: 'flex',
             alignItems: 'flex-end',
             gap: '0.625rem',
-            background: 'rgba(255, 255, 255, 0.7)',
+            background: isDark ? '#30302E' : 'rgba(255, 255, 255, 0.7)',
             backdropFilter: 'blur(12px)',
-            border: '1px solid rgba(0,0,0,0.08)',
+            border: isDark ? '1px solid rgba(255,255,255,0.1)' : '1px solid rgba(0,0,0,0.08)',
             borderRadius: 'var(--radius-xl)',
             padding: '0.625rem 0.75rem',
             transition: 'border-color 0.2s',
-            boxShadow: '0 10px 25px rgba(0,0,0,0.1)',
+            boxShadow: isDark ? '0 10px 25px rgba(0,0,0,0.3)' : '0 10px 25px rgba(0,0,0,0.1)',
           }}
           onFocus={e => {
-            e.currentTarget.style.borderColor = 'rgba(0,0,0,0.15)';
+            e.currentTarget.style.borderColor = isDark ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.15)';
           }}
           onBlur={e => {
-            e.currentTarget.style.borderColor = 'rgba(0,0,0,0.08)';
+            e.currentTarget.style.borderColor = isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.08)';
           }}
         >
           {/* Textarea */}
@@ -101,7 +117,7 @@ export default forwardRef(function MessageInput({ onSubmit, isLoading }, ref) {
               border: 'none',
               outline: 'none',
               resize: 'none',
-              color: '#6D6A62',
+              color: isDark ? '#E5E5E5' : '#6D6A62',
               fontFamily: 'var(--font-body)',
               fontSize: '0.9375rem',
               lineHeight: 1.6,
@@ -109,14 +125,14 @@ export default forwardRef(function MessageInput({ onSubmit, isLoading }, ref) {
               maxHeight: '160px',
               overflowY: 'auto',
               padding: '3px 0',
-              caretColor: '#999',
+              caretColor: isDark ? '#999' : '#999',
             }}
           />
 
           {/* Hint */}
           <div style={{
             fontSize: '0.6875rem',
-            color: 'rgba(0,0,0,0.3)',
+            color: isDark ? 'rgba(255,255,255,0.3)' : 'rgba(0,0,0,0.3)',
             fontFamily: 'var(--font-body)',
             whiteSpace: 'nowrap',
             alignSelf: 'flex-end',
@@ -163,7 +179,7 @@ export default forwardRef(function MessageInput({ onSubmit, isLoading }, ref) {
                 animation: 'spin 0.8s linear infinite',
               }} />
             ) : (
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={canSend ? '#ccc' : '#444'} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={canSend ? (isDark ? '#ccc' : '#C96443') : (isDark ? '#444' : '#d5d5d5')} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                 <line x1="22" y1="2" x2="11" y2="13" />
                 <polygon points="22 2 15 22 11 13 2 9 22 2" />
               </svg>
@@ -176,7 +192,7 @@ export default forwardRef(function MessageInput({ onSubmit, isLoading }, ref) {
           textAlign: 'center',
           marginTop: '0.5rem',
           fontSize: '0.6875rem',
-          color: 'rgba(255,255,255,0.2)',
+          color: isDark ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.3)',
           fontFamily: 'var(--font-body)',
           letterSpacing: '0.04em',
         }}>

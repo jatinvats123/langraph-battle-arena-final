@@ -1,7 +1,67 @@
+import { useState, useEffect } from 'react';
 import ScoreRing from './ScoreRing';
 
+// Theme detection
+const isDarkMode = () => {
+  const html = document.documentElement;
+  const theme = html.getAttribute('data-theme');
+  return !theme || theme === 'dark';
+};
+
 export default function JudgeVerdict({ judge }) {
+  const [isDark, setIsDark] = useState(isDarkMode());
+  
+  useEffect(() => {
+    const checkTheme = () => setIsDark(isDarkMode());
+    const observer = new MutationObserver(checkTheme);
+    observer.observe(document.documentElement, { attributes: true });
+    return () => observer.disconnect();
+  }, []);
+
+  // Handle case when judge is not yet available
+  if (!judge) {
+    return null;
+  }
+
   const { solution_1_score, solution_2_score, solution_1_reasoning, solution_2_reasoning } = judge;
+  
+  // Handle incomplete judge data
+  if (solution_1_score === undefined || solution_2_score === undefined) {
+    return (
+      <div
+        id="judge-verdict"
+        style={{
+          borderRadius: 'var(--radius-lg)',
+          overflow: 'hidden',
+          border: isDark ? '1px solid rgba(255,255,255,0.10)' : '1px solid #E5E5E5',
+          padding: '2rem',
+          textAlign: 'center',
+          background: isDark ? '#101010' : '#FAFAF9',
+          boxShadow: isDark ? 'none' : '0 4px 20px rgba(0,0,0,0.05)',
+        }}
+      >
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.75rem' }}>
+          <div style={{
+            width: 8,
+            height: 8,
+            borderRadius: '50%',
+            background: '#C96443',
+            animation: 'pulse 2s infinite',
+          }} />
+          <span style={{
+            fontFamily: 'var(--font-display)',
+            fontWeight: 600,
+            fontSize: '0.9375rem',
+            color: 'var(--text-secondary)',
+            letterSpacing: '-0.01em',
+          }}>
+            Judge verdict pending…
+          </span>
+        </div>
+      </div>
+    );
+  }
+
   const winner = solution_1_score >= solution_2_score ? 1 : 2;
   const winnerScore = Math.max(solution_1_score, solution_2_score);
   const loserScore = Math.min(solution_1_score, solution_2_score);
@@ -13,15 +73,16 @@ export default function JudgeVerdict({ judge }) {
       style={{
         borderRadius: 'var(--radius-lg)',
         overflow: 'hidden',
-        border: '1px solid rgba(255,255,255,0.10)',
+        border: isDark ? '1px solid rgba(255,255,255,0.10)' : '1px solid #E5E5E5',
         animation: 'scaleIn 0.6s ease 0.3s both',
+        boxShadow: isDark ? 'none' : '0 4px 20px rgba(0,0,0,0.05)',
       }}
     >
       {/* Header */}
       <div style={{
-        background: '#131313',
+        background: isDark ? '#131313' : '#FAFAF9',
         padding: '1.125rem 1.75rem',
-        borderBottom: '1px solid rgba(255,255,255,0.07)',
+        borderBottom: isDark ? '1px solid rgba(255,255,255,0.07)' : '1px solid #E5E5E5',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
@@ -32,13 +93,13 @@ export default function JudgeVerdict({ judge }) {
             width: 40,
             height: 40,
             borderRadius: 'var(--radius-md)',
-            background: '#1c1c1c',
-            border: '1px solid rgba(255,255,255,0.10)',
+            background: isDark ? '#1c1c1c' : '#F4F4ED',
+            border: isDark ? '1px solid rgba(255,255,255,0.10)' : '1px solid #E5E5E5',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
           }}>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#888" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={isDark ? "#888" : "#999"} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
             </svg>
           </div>
@@ -68,8 +129,8 @@ export default function JudgeVerdict({ judge }) {
           display: 'flex',
           alignItems: 'center',
           gap: 8,
-          background: 'rgba(255,255,255,0.06)',
-          border: '1px solid rgba(255,255,255,0.14)',
+          background: isDark ? 'rgba(255,255,255,0.06)' : '#F4F4ED',
+          border: isDark ? '1px solid rgba(255,255,255,0.14)' : '1px solid #E5E5E5',
           borderRadius: 'var(--radius-full)',
           padding: '7px 16px',
         }}>
@@ -102,9 +163,9 @@ export default function JudgeVerdict({ judge }) {
 
       {/* Score row */}
       <div style={{
-        background: '#101010',
+        background: isDark ? '#101010' : '#FAFAF9',
         padding: '1.25rem 1.75rem',
-        borderBottom: '1px solid rgba(255,255,255,0.05)',
+        borderBottom: isDark ? '1px solid rgba(255,255,255,0.05)' : '1px solid #E5E5E5',
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
 
@@ -133,20 +194,20 @@ export default function JudgeVerdict({ judge }) {
                 {solution_1_score}
                 <span style={{ fontSize: '0.875rem', color: 'var(--text-tertiary)', fontWeight: 400 }}>/10</span>
               </div>
-              <ScoreBar score={solution_1_score} isWinner={winner === 1} />
+              <ScoreBar score={solution_1_score} isWinner={winner === 1} isDark={isDark} />
             </div>
           </div>
 
           {/* VS */}
           <div style={{ flexDirection: 'column', alignItems: 'center', gap: 4, flexShrink: 0, display: 'flex' }}>
-            <div style={{ width: 1, height: 18, background: 'rgba(255,255,255,0.07)' }} />
+            <div style={{ width: 1, height: 18, background: isDark ? 'rgba(255,255,255,0.07)' : '#E5E5E5' }} />
             <span style={{
               fontFamily: 'var(--font-display)',
               fontWeight: 700,
               fontSize: '0.8125rem',
               color: 'var(--text-tertiary)',
             }}>VS</span>
-            <div style={{ width: 1, height: 18, background: 'rgba(255,255,255,0.07)' }} />
+            <div style={{ width: 1, height: 18, background: isDark ? 'rgba(255,255,255,0.07)' : '#E5E5E5' }} />
           </div>
 
           {/* S2 */}
@@ -173,7 +234,7 @@ export default function JudgeVerdict({ judge }) {
                 {solution_2_score}
                 <span style={{ fontSize: '0.875rem', color: 'var(--text-tertiary)', fontWeight: 400 }}>/10</span>
               </div>
-              <ScoreBar score={solution_2_score} isWinner={winner === 2} align="right" />
+              <ScoreBar score={solution_2_score} isWinner={winner === 2} align="right" isDark={isDark} />
             </div>
             <ScoreRing score={solution_2_score} size={86} isWinner={winner === 2} />
           </div>
@@ -182,21 +243,21 @@ export default function JudgeVerdict({ judge }) {
       </div>
 
       {/* Reasoning */}
-      <div style={{ background: '#0f0f0f', display: 'grid', gridTemplateColumns: '1fr 1fr' }}>
-        <ReasoningPanel number={1} reasoning={solution_1_reasoning} isWinner={winner === 1} borderRight />
-        <ReasoningPanel number={2} reasoning={solution_2_reasoning} isWinner={winner === 2} />
+      <div style={{ background: isDark ? '#0f0f0f' : '#FAFAF9', display: 'grid', gridTemplateColumns: '1fr 1fr' }}>
+        <ReasoningPanel number={1} reasoning={solution_1_reasoning} isWinner={winner === 1} borderRight isDark={isDark} />
+        <ReasoningPanel number={2} reasoning={solution_2_reasoning} isWinner={winner === 2} isDark={isDark} />
       </div>
     </div>
   );
 }
 
-function ScoreBar({ score, isWinner, align = 'left' }) {
+function ScoreBar({ score, isWinner, align = 'left', isDark = true }) {
   return (
     <div style={{
       marginTop: 6,
       height: 3,
       width: 110,
-      background: 'rgba(255,255,255,0.06)',
+      background: isDark ? 'rgba(255,255,255,0.06)' : '#e5e5e5',
       borderRadius: 'var(--radius-full)',
       overflow: 'hidden',
       marginLeft: align === 'right' ? 'auto' : undefined,
@@ -204,7 +265,7 @@ function ScoreBar({ score, isWinner, align = 'left' }) {
       <div style={{
         height: '100%',
         width: `${(score / 10) * 100}%`,
-        background: isWinner ? 'rgba(255,255,255,0.55)' : 'rgba(255,255,255,0.18)',
+        background: isWinner ? (isDark ? 'rgba(255,255,255,0.55)' : '#C96443') : (isDark ? 'rgba(255,255,255,0.18)' : '#d5d5d5'),
         borderRadius: 'var(--radius-full)',
         transition: 'width 1s cubic-bezier(0.4,0,0.2,1) 0.5s',
       }} />
@@ -212,12 +273,12 @@ function ScoreBar({ score, isWinner, align = 'left' }) {
   );
 }
 
-function ReasoningPanel({ number, reasoning, isWinner, borderRight }) {
+function ReasoningPanel({ number, reasoning, isWinner, borderRight, isDark = true }) {
   return (
     <div style={{
       padding: '1.25rem 1.5rem',
-      background: isWinner ? 'rgba(255,255,255,0.02)' : 'transparent',
-      borderRight: borderRight ? '1px solid rgba(255,255,255,0.05)' : undefined,
+      background: isWinner ? (isDark ? 'rgba(255,255,255,0.02)' : '#F4F4ED') : 'transparent',
+      borderRight: borderRight ? (isDark ? '1px solid rgba(255,255,255,0.05)' : '1px solid #E5E5E5') : undefined,
       position: 'relative',
     }}>
       {/* Top accent line for winner */}
@@ -225,7 +286,7 @@ function ReasoningPanel({ number, reasoning, isWinner, borderRight }) {
         <div style={{
           position: 'absolute',
           top: 0, left: 0, right: 0, height: 1,
-          background: 'rgba(255,255,255,0.15)',
+          background: isDark ? 'rgba(255,255,255,0.15)' : '#E5E5E5',
         }} />
       )}
 
@@ -234,7 +295,7 @@ function ReasoningPanel({ number, reasoning, isWinner, borderRight }) {
           width: 6,
           height: 6,
           borderRadius: '50%',
-          background: isWinner ? '#aaa' : '#444',
+          background: isWinner ? (isDark ? '#aaa' : '#999') : (isDark ? '#444' : '#d5d5d5'),
           flexShrink: 0,
         }} />
         <span style={{
@@ -242,7 +303,7 @@ function ReasoningPanel({ number, reasoning, isWinner, borderRight }) {
           fontWeight: 600,
           letterSpacing: '0.1em',
           textTransform: 'uppercase',
-          color: isWinner ? '#999' : 'var(--text-tertiary)',
+          color: isWinner ? (isDark ? '#999' : '#666') : 'var(--text-tertiary)',
           fontFamily: 'var(--font-body)',
         }}>
           Solution {number} Reasoning
@@ -252,9 +313,9 @@ function ReasoningPanel({ number, reasoning, isWinner, borderRight }) {
             fontSize: '0.6rem',
             fontWeight: 700,
             letterSpacing: '0.08em',
-            color: '#aaa',
-            background: 'rgba(255,255,255,0.08)',
-            border: '1px solid rgba(255,255,255,0.12)',
+            color: isDark ? '#aaa' : '#666',
+            background: isDark ? 'rgba(255,255,255,0.08)' : '#F4F4ED',
+            border: isDark ? '1px solid rgba(255,255,255,0.12)' : '1px solid #E5E5E5',
             borderRadius: 'var(--radius-full)',
             padding: '1px 7px',
             fontFamily: 'var(--font-body)',
@@ -268,7 +329,7 @@ function ReasoningPanel({ number, reasoning, isWinner, borderRight }) {
       <p style={{
         fontSize: '0.875rem',
         lineHeight: 1.75,
-        color: 'var(--text-secondary)',
+        color: isDark ? 'rgba(135, 134, 127, 0.7)' : 'var(--text-secondary)',
         fontFamily: 'var(--font-body)',
       }}>
         {reasoning}
